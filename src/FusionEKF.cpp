@@ -68,7 +68,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     cout << "EKF: " << endl;
     ekf_.x_ = VectorXd(4);
     ekf_.x_ << 1, 1, 1, 1;
-    ekf_.P_  = VectorXd(4,4);
+    ekf_.P_  = MatrixXd(4,4);
     cout << "EKF: 2 " << endl;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
