@@ -1,4 +1,5 @@
 #include "kalman_filter.h"
+#include "tools.h"
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -57,6 +58,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   float py = x_(1);
   float vx = x_(2);
   float vy = x_(3);
+  Eigen::MatrixXd Hj_;
   Hj_ = MatrixXd(3, 4);
   Tools tools;
   /* Precompute quantities */
