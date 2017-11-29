@@ -76,6 +76,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       Convert radar from polar to cartesian coordinates and initialize state.
       x = rho.cos(phi), y = rho.sin(phi)
       */
+      cout  << "Initializing for Radar data"<<endl;
       float theta = measurement_pack.raw_measurements_(1);
       float ro    = measurement_pack.raw_measurements_(0); 
       ekf_.x_  <<  ro*cos(theta),ro*sin(theta),0,0;
@@ -84,6 +85,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Initialize state with position and 0 velocity
       */
+      cout  << "Initializing for Laser data"<<endl;
       ekf_.x_ << measurement_pack.raw_measurements_(0),measurement_pack.raw_measurements_(0),0,0 ;
     }
 
