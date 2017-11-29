@@ -89,6 +89,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // done initializing, no need to predict or update
     previous_timestamp_  = measurement_pack.timestamp_;
     is_initialized_ = true;
+    cout << "Initialization Complete " << endl;
     return;
   }
 
@@ -124,7 +125,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
               0, dt_4/4*noise_ay, 0, dt_3/2*noise_ay,
 	      dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
 	      0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
+
+  cout << "Calling Predict " << endl;
   ekf_.Predict();
+  cout << "Predict Completed " << endl;
 
   /*****************************************************************************
    *  Update
@@ -141,12 +145,16 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.R_ =  R_radar_;
     /* Calculate Hj and store in ekf_.H_ */
 
+    cout << "Calling Update for Radar " << endl;
     ekf_.UpdateEKF(measurement_pack.raw_measurements_);
+    cout << "Radar Update Completed " << endl;
   } else {
     // Laser updates
     ekf_.H_ = H_laser_ ;
     ekf_.R_ = R_laser_ ;
+    cout << "Calling Update for Laser " << endl;
     ekf_.Update(measurement_pack.raw_measurements_);
+    cout << "Laser Update Completed " << endl;
   }
 
   // print the output
