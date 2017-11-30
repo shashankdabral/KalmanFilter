@@ -71,12 +71,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   VectorXd z_pred (3);
   float  c4     = sqrt(px*px + py*py);
   float  c5     = atan2(py,px);
+  /*
   while (c5 > 3.14) {
     c5 = c5 - 2*3.14;
   }
   while (c5 < -3.14) {
     c5 = c5 + 2*3.14;
   }
+  */
 
   float  c6     = px*vx + py*vy;
   z_pred        << c4,c5,(c6/c4);
@@ -84,6 +86,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   cout <<"z_measured ="<<z<< endl;
   cout <<" z_pred ="<<z_pred<<endl;
   VectorXd  y = z - z_pred; /* Calculate error */
+
+  while (y(1) > 3.14) {
+    y(1) = y1 - 2*3.14;
+  }
+  while (y(1) < -3.14) {
+    y(1) = y1 + 2*3.14;
+  }
+
   MatrixXd Ht = Hj_.transpose();
   MatrixXd S = Hj_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
