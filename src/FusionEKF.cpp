@@ -71,8 +71,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.P_  = MatrixXd(4,4);
     ekf_.P_  << 1,0,0,0 ,
                 0,1,0,0 ,
-		0,0,1,0 ,
-		0,0,0,1 ;
+		0,0,100,0 ,
+		0,0,0,100 ;
     cout << "EKF: 2 " << endl;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
@@ -115,7 +115,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   float noise_ax = 9;
   float noise_ay = 9;
   /* Create F Matrix */
-  float dt = (measurement_pack.timestamp_ - previous_timestamp_)/10000;
+  float dt = (measurement_pack.timestamp_ - previous_timestamp_)/1000000;
   previous_timestamp_  = measurement_pack.timestamp_;
   float dt_2 = dt * dt;
   float dt_3 = dt_2 * dt;
@@ -126,21 +126,21 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	          0,0,1,0,
 	          0,0,0,1;
 
+  cout <<"F = " << ekf_.F_<<endl;
   /* Create Q Matrix */
   ekf_.Q_    = MatrixXd(4, 4);
   ekf_.Q_ <<  dt_4/4*noise_ax, 0, dt_3/2*noise_ax, 0,
               0, dt_4/4*noise_ay, 0, dt_3/2*noise_ay,
 	      dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
 	      0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
-  cout << "Prior to predict" <<endl;
-  cout <<" x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+//  cout << "P_ = " << ekf_.P_ << endl;
   cout << "Calling Predict " << endl;
+  cout <<" x_ = " << ekf_.x_ << endl;
   ekf_.Predict();
   cout << "Predict Completed " << endl;
   cout << "After predict" <<endl;
   cout <<" x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+//  cout << "P_ = " << ekf_.P_ << endl;
 
   /*****************************************************************************
    *  Update
@@ -171,5 +171,5 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // print the output
   cout << "x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+//  cout << "P_ = " << ekf_.P_ << endl;
 }

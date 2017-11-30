@@ -27,8 +27,10 @@ void KalmanFilter::Predict() {
   TODO:
     * predict the state
   */
-  
+  cout <<"F in Predict = " << F_<<endl; 
+  cout <<"x before predict ="<<x_<<endl;
   x_  = F_ *x_;
+  cout <<"x after predict ="<<x_<<endl;
   MatrixXd Ft  = F_.transpose();
   P_           = F_ * P_ * Ft + Q_;
 }
@@ -38,16 +40,16 @@ void KalmanFilter::Update(const VectorXd &z) {
    * Linear Kalman filter equations for Lidar *
   */
    VectorXd z_pred = H_ * x_;
-   cout <<"z_pred"<< z_pred<<endl;
+//   cout <<"z_pred"<< z_pred<<endl;
    VectorXd y = z - z_pred; /* Calculate error */
-   cout <<"y"<< y<<endl;
+//   cout <<"y"<< y<<endl;
    MatrixXd Ht = H_.transpose();
-   cout <<"Ht = "<< Ht <<endl;
+//   cout <<"Ht = "<< Ht <<endl;
    MatrixXd S = H_ * P_ * Ht + R_;
    MatrixXd Si = S.inverse();
    MatrixXd PHt = P_ * Ht;
    MatrixXd K  = PHt * Si;
-   cout <<"R  = "<< R_ <<endl;
+//   cout <<"R  = "<< R_ <<endl;
 
    // New estimate
    x_  = x_ + (K*y);
