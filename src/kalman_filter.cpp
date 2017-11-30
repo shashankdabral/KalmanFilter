@@ -66,11 +66,9 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   Hj_ = tools.CalculateJacobian(x_);
 
+  cout <<"Hj =" << Hj_ << endl;
   
   VectorXd z_pred (3);
-  float  ro     = z(0);
-  float  theta  = z(1);
-  float  ro_dot = z(2);
   float  c4     = sqrt(px*px + py*py);
   float  c5     = atan2(py,px);
   while (c5 > 3.14) {
@@ -82,6 +80,8 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   float  c6     = px*vx + py*vy;
   z_pred        << c4,c5,(c6/c5);
+  cout << "c4 =" <<c4 << " c5 =" <<c5 <<" c6 =" << c6 <<endl;
+  cout <<"z_measured ="<<z<<" z_pred ="<<z_pred<<endl;
   VectorXd  y = z - z_pred; /* Calculate error */
   MatrixXd Ht = Hj_.transpose();
   MatrixXd S = Hj_ * P_ * Ht + R_;
