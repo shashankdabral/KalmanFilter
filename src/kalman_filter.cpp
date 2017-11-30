@@ -27,10 +27,7 @@ void KalmanFilter::Predict() {
   TODO:
     * predict the state
   */
-  cout <<"F in Predict = " << F_<<endl; 
-  cout <<"x before predict ="<<x_<<endl;
   x_  = F_ *x_;
-  cout <<"x after predict ="<<x_<<endl;
   MatrixXd Ft  = F_.transpose();
   P_           = F_ * P_ * Ft + Q_;
 }
