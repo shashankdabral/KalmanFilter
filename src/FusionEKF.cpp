@@ -135,14 +135,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
               0, dt_4/4*noise_ay, 0, dt_3/2*noise_ay,
 	      dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
 	      0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
-//  cout << "P_ = " << ekf_.P_ << endl;
+
   cout << "Calling Predict " << endl;
-  cout <<" x_ = " << ekf_.x_ << endl;
+//  cout <<" x_ = " << ekf_.x_ << endl;
   ekf_.Predict();
   cout << "Predict Completed " << endl;
-  cout << "After predict" <<endl;
-  cout <<" x_ = " << ekf_.x_ << endl;
-//  cout << "P_ = " << ekf_.P_ << endl;
+//  cout << "After predict" <<endl;
+//  cout <<" x_ = " << ekf_.x_ << endl;
 
   /*****************************************************************************
    *  Update
@@ -173,5 +172,5 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   // print the output
   cout << "x_ = " << ekf_.x_ << endl;
-//  cout << "P_ = " << ekf_.P_ << endl;
+  cout << "P_ = " << ekf_.P_ << endl;
 }

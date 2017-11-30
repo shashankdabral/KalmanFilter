@@ -37,11 +37,8 @@ void KalmanFilter::Update(const VectorXd &z) {
    * Linear Kalman filter equations for Lidar *
   */
    VectorXd z_pred = H_ * x_;
-//   cout <<"z_pred"<< z_pred<<endl;
    VectorXd y = z - z_pred; /* Calculate error */
-//   cout <<"y"<< y<<endl;
    MatrixXd Ht = H_.transpose();
-//   cout <<"Ht = "<< Ht <<endl;
    MatrixXd S = H_ * P_ * Ht + R_;
    MatrixXd Si = S.inverse();
    MatrixXd PHt = P_ * Ht;
