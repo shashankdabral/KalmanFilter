@@ -79,9 +79,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   }
 
   float  c6     = px*vx + py*vy;
-  z_pred        << c4,c5,(c6/c5);
+  z_pred        << c4,c5,(c6/c4);
   cout << "c4 =" <<c4 << " c5 =" <<c5 <<" c6 =" << c6 <<endl;
-  cout <<"z_measured ="<<z<<" z_pred ="<<z_pred<<endl;
+  cout <<"z_measured ="<<z<< endl;
+  cout <<" z_pred ="<<z_pred<<endl;
   VectorXd  y = z - z_pred; /* Calculate error */
   MatrixXd Ht = Hj_.transpose();
   MatrixXd S = Hj_ * P_ * Ht + R_;
