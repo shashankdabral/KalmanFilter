@@ -84,6 +84,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       float theta = measurement_pack.raw_measurements_(1);
       float ro    = measurement_pack.raw_measurements_(0); 
       ekf_.x_  <<  ro*cos(theta),ro*sin(theta),0,0;
+      
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**
@@ -157,9 +158,11 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.R_ =  R_radar_;
     /* Calculate Hj and store in ekf_.H_ */
 
+    cout << "Before Radar Update x_ = " << ekf_.x_ << endl;
     cout << "Calling Update for Radar " << endl;
     ekf_.UpdateEKF(measurement_pack.raw_measurements_);
     cout << "Radar Update Completed " << endl;
+    cout << "After  Radar Update x_ = " << ekf_.x_ << endl;
   } else {
     // Laser updates
     ekf_.H_ = H_laser_ ;
@@ -172,5 +175,5 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   // print the output
   
   cout << "x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+//  cout << "P_ = " << ekf_.P_ << endl;
 }
