@@ -117,6 +117,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /* Create F Matrix */
   float dt = (measurement_pack.timestamp_ - previous_timestamp_)/1000000;
   previous_timestamp_  = measurement_pack.timestamp_;
+  cout <<"dt = " <<endl;
   float dt_2 = dt * dt;
   float dt_3 = dt_2 * dt;
   float dt_4 = dt_3 * dt;
