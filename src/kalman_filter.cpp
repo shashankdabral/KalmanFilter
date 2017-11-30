@@ -88,10 +88,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   VectorXd  y = z - z_pred; /* Calculate error */
 
   while (y(1) > 3.14) {
-    y(1) = y1 - 2*3.14;
+    y(1) = y(1) - 2*3.14;
   }
   while (y(1) < -3.14) {
-    y(1) = y1 + 2*3.14;
+    y(1) = y(1) + 2*3.14;
   }
 
   MatrixXd Ht = Hj_.transpose();
