@@ -73,7 +73,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
                 0,1,0,0 ,
 		0,0,100,0 ,
 		0,0,0,100 ;
-    cout << "EKF: 2 " << endl;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       /**
@@ -97,7 +96,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // done initializing, no need to predict or update
     previous_timestamp_  = measurement_pack.timestamp_;
     is_initialized_ = true;
-    cout << "Initialization Complete " << endl;
     return;
   }
 
@@ -119,7 +117,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   float dt = 0.0f;
   dt = float((measurement_pack.timestamp_ - previous_timestamp_)/1000000.0);
   previous_timestamp_  = measurement_pack.timestamp_;
-  cout <<"dt = " <<dt <<endl;
+  //cout <<"dt = " <<dt <<endl;
   float dt_2 = dt * dt;
   float dt_3 = dt_2 * dt;
   float dt_4 = dt_3 * dt;
@@ -137,11 +135,12 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	      0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
 
   cout << "Calling Predict " << endl;
-  cout <<" x_ = " << ekf_.x_ << endl;
   ekf_.Predict();
+  /*
   cout << "Predict Completed " << endl;
   cout << "After predict" <<endl;
   cout <<" x_ = " << ekf_.x_ << endl;
+  */
 
   /*****************************************************************************
    *  Update
@@ -158,11 +157,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.R_ =  R_radar_;
     /* Calculate Hj and store in ekf_.H_ */
 
-    cout << "Before Radar Update x_ = " << ekf_.x_ << endl;
     cout << "Calling Update for Radar " << endl;
     ekf_.UpdateEKF(measurement_pack.raw_measurements_);
     cout << "Radar Update Completed " << endl;
-    cout << "After  Radar Update x_ = " << ekf_.x_ << endl;
   } else {
     // Laser updates
     ekf_.H_ = H_laser_ ;
@@ -175,5 +172,5 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   // print the output
   
   cout << "x_ = " << ekf_.x_ << endl;
-//  cout << "P_ = " << ekf_.P_ << endl;
+  cout << "P_ = " << ekf_.P_ << endl;
 }
